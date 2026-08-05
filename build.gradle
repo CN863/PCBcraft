@@ -1,0 +1,108 @@
+// PCBcraft — Minecraft Forge 65.1.0 (MC 26.2) 迁移版
+// 从 NeoForge moddev 迁移到 ForgeGradle 7.x
+plugins {
+    id 'java'
+    id 'idea'
+    id 'eclipse'
+    id 'net.minecraftforge.gradle' version '[7.0.17,8)'
+}
+
+group = 'com.pcbcraft'
+version = mod_version
+
+// MC 26.x 需要 Java 25
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+// 包含数据生成产物
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+minecraft {
+    runs {
+        configureEach {
+            workingDir = layout.projectDirectory.dir('run')
+            systemProperty 'eventbus.api.strictRuntimeChecks', 'true'
+            systemProperty 'forge.enabledGameTestNamespaces', 'pcbcraft'
+        }
+        client {
+            // client run
+        }
+        server {
+            args '--nogui'
+        }
+        gameTestServer {
+            // Gradle 9.3 + ForgeGradle 7: type 为只读属性，run config 名称已决定类型
+        }
+        data {
+            workingDir = layout.projectDirectory.dir('run-data')
+            args '--mod', 'pcbcraft', '--all', '--output', layout.projectDirectory.dir('src/generated/resources'),
+                    '--existing', layout.projectDirectory.dir('src/main/resources')
+        }
+    }
+}
+
+// ForgeGradle 仓库配置：使用 mavenizer + Forge/Mojang 官方仓库
+repositories {
+    minecraft.mavenizer(it)
+    maven fg.forgeMaven
+    maven fg.minecraftLibsMaven
+    mavenCentral()
+    maven {
+        url = 'https://libraries.minecraft.net/'
+    }
+}
+
+dependencies {
+    implementation minecraft.dependency('net.minecraftforge:forge:26.2-65.1.0')
+    annotationProcessor 'net.minecraftforge:eventbus-validator:7.0.0'
+    // Luaj 沙盒
+    implementation 'org.luaj:luaj-jse:3.0.1'
+}
+
+// 源文件编码：项目含中文注释，强制 UTF-8 避免 javac 用平台默认 GBK 解码报错
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+javadoc {
+    options.encoding = 'UTF-8'
+}
+
+// 资源占位符替换
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            forge_version          : forge_version,
+            forge_version_range    : forge_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_version            : mod_version,
+            mod_license            : mod_license,
+            mod_group_id           : mod_group_id,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
+}
+
+jar {
+    manifest {
+        attributes([
+                'Specification-Title'     : mod_id,
+                'Specification-Vendor'    : 'PCBCraft',
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : project.name,
+                'Implementation-Version'  : mod_version,
+                'Implementation-Vendor'   : 'PCBCraft',
+                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}

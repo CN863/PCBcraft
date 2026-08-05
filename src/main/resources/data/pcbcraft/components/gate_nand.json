@@ -1,0 +1,29 @@
+{
+  "id": "gate_nand",
+  "name": "与非门",
+  "category": "logic",
+  "symbol": {
+    "shape": "nand",
+    "width": 3,
+    "height": 3
+  },
+  "footprint": {
+    "pads": [
+      { "pin": 1, "dx": 0, "dy": 0, "size": 0, "layer": 0 },
+      { "pin": 2, "dx": 0, "dy": 2, "size": 0, "layer": 0 },
+      { "pin": 3, "dx": 2, "dy": 1, "size": 0, "layer": 0 }
+    ]
+  },
+  "pins": [
+    { "number": 1, "name": "A" },
+    { "number": 2, "name": "B" },
+    { "number": 3, "name": "Y" }
+  ],
+  "model": {
+    "type": "logic_gate",
+    "params": {
+      "gate": "NAND",
+      "inputs": 2
+    }
+  }
+}

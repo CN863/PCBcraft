@@ -1,0 +1,28 @@
+{
+  "id": "dff",
+  "name": "D触发器",
+  "category": "logic",
+  "symbol": {
+    "shape": "dff",
+    "width": 3,
+    "height": 3
+  },
+  "footprint": {
+    "pads": [
+      { "pin": 1, "dx": 0, "dy": 0, "size": 0, "layer": 0 },
+      { "pin": 2, "dx": 0, "dy": 2, "size": 0, "layer": 0 },
+      { "pin": 3, "dx": 2, "dy": 0, "size": 0, "layer": 0 },
+      { "pin": 4, "dx": 2, "dy": 2, "size": 0, "layer": 0 }
+    ]
+  },
+  "pins": [
+    { "number": 1, "name": "D" },
+    { "number": 2, "name": "CLK" },
+    { "number": 3, "name": "Q" },
+    { "number": 4, "name": "Qbar" }
+  ],
+  "model": {
+    "type": "dff",
+    "params": {}
+  }
+}

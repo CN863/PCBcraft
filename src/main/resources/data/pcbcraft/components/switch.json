@@ -1,0 +1,26 @@
+{
+  "id": "switch",
+  "name": "按键",
+  "category": "input",
+  "symbol": {
+    "shape": "button",
+    "width": 3,
+    "height": 1
+  },
+  "footprint": {
+    "pads": [
+      { "pin": 1, "dx": 0, "dy": 0, "size": 0, "layer": 0 },
+      { "pin": 2, "dx": 2, "dy": 0, "size": 0, "layer": 0 }
+    ]
+  },
+  "pins": [
+    { "number": 1, "name": "A" },
+    { "number": 2, "name": "B" }
+  ],
+  "model": {
+    "type": "switch",
+    "params": {
+      "closed": false
+    }
+  }
+}

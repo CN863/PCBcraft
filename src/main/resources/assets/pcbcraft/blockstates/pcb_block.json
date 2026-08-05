@@ -1,0 +1,7 @@
+{
+  "multipart": [
+    { "when": { "layer_type": "copper" }, "apply": { "model": "pcbcraft:block/pcb_copper" } },
+    { "when": { "layer_type": "mask" }, "apply": { "model": "pcbcraft:block/pcb_mask" } },
+    { "when": { "layer_type": "silk" }, "apply": { "model": "pcbcraft:block/pcb_silk" } }
+  ]
+}
